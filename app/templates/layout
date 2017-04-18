@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- These 3 meta tags MUST come first -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- These 3 meta tags MUST come first -->
+
+        <title>Liam Test App</title>
+
+        <!-- Bootstrap CSS and JS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossor    igin="anonymous">
+    </head>
+    <body>
+        {% block body %}
+        <!-- Application specific HTML -->
+        <div id="header-div" class="clearfix with-margins">
+            <div class="pull-left"><a href="{{ url_for('home_page') }}"><span class="header-title">{{ user_manager.app_name }}</span></a></div>
+            <div class="pull-right">
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('user_profile_page') }}">{{ current_user.first_name or current_user.user_auth.username }}</a>
+                    &nbsp; | &nbsp;
+                    <a href="{{ url_for('user.logout') }}">Sign out</a>
+                {% else %}
+                    <a href="{{ url_for('user.login') }}">Sign in</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="with-margins">
+            <a href="{{ url_for('home_page') }}">Home</a>
+            &nbsp; | &nbsp; <a href="{{ url_for('user_page') }}">User</a>
+            &nbsp; | &nbsp; <a href="{{ url_for('admin_page') }}">Admin</a>
+        </div>
+        <hr class="no-margins"/>
+
+        <div id="main-div" class="with-margins">
+        {% block pre_content %}{% endblock %}
+
+        {# One-time system messages called Flash messages #}
+        {% block flash_messages %}
+            {%- with messages = get_flashed_messages(with_categories=true) -%}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        {% if category=='error' %}
+                            {% set category='danger' %}
+                        {% endif %}
+                        <div class="alert alert-{{category}}">{{ message|safe }}</div>
+                    {% endfor %}
+                {% endif %}
+            {%- endwith %}
+        {% endblock %}
+
+        {% block content %}{% endblock %}
+
+        {% block post_content %}{% endblock %}
+        </div>
+
+        <br/>
+        <hr class="no-margins"/>
+        <div id="footer-div" class="clearfix with-margins">
+            <div class="pull-left">{{ user_manager.app_name }} v1.0</div>
+        </div>
+
+        <!-- Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        {% endblock %}
+    </body>
+</html>

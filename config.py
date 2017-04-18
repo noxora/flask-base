@@ -1,0 +1,29 @@
+import os
+APP_NAME="Liam Blog"
+basedir = os.path.abspath(os.path.dirname(__file__))
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+
+CSRF_ENABLED = True
+SECRET_KEY = 'never-gonna-guess'
+
+# Flask-SQLAlchemy settings
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+# Flask-User settings
+USER_APP_NAME = APP_NAME
+USER_ENABLE_CHANGE_PASSWORD = True 
+USER_ENABLE_CHANGE_USERNAME = False
+USER_ENABLE_CONFIRM_EMAIL = True  
+USER_ENABLE_FORGOT_PASSWORD = True
+USER_ENABLE_EMAIL = True 
+USER_ENABLE_REGISTRATION = True
+USER_ENABLE_RETYPE_PASSWORD = True 
+USER_ENABLE_USERNAME = False 
+USER_AFTER_LOGIN_ENDPOINT = 'user_page'
+USER_AFTER_LOGOUT_ENDPOINT = 'home_page'
+#Flask_User settings
+USER_SEND_PASSWORD_CHANGED_MAIL = False
+USER_SEND_REGISTERED_EMAIL = False
+USER_SEND_USERNAME_CHANGED_EMAIL = False
+USER_ENABLE_CONFIRM_EMAIL = False

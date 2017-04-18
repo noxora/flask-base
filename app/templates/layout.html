@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Some meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport"content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>Liam Test App</title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <link rel="stylesheet" href="/home/liam/Projects/myblog/app/templates/custom.css">
+    </head>
+    <body>
+        {% block body %}
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-toggleable-md bg-info navbar-inverse">
+            <div class="container">
+                <button class="navbar-toggler float-right" data-toggle="collapse" data-target="#mainNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link" href="{{ url_for('home_page') }}">Home</a>
+                        <a class="nav-item nav-link" href="#">About</a>
+                        <a class="nav-item nav-link" href="#">Contact</a>
+                    </div>
+                </div>
+                <div class="navbar-nav col-6 justify-content-end">
+                    {% if current_user.is_authenticated %}
+                        <a class="nav-item nav-link" href="{{ url_for('user.logout') }}">Sign Out</a>
+                    {% else %} 
+                        <a class="nav-item nav-link" href="{{ url_for('user.login') }}">Sign In</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+        <!-- JumboTron, This also shouldn't be in the layout
+        <div class="jumbotron jumbotron-fluid bg-info text-white text-center">
+            <div class="container">
+                <h1 class="display-1">Reformation Modern</h1>
+                <p class="lead">Because Bans should be tested</p>
+            </div>
+        </div> -->
+        <!-- Cards, this shouldn't be in the layout though  
+        <div class="container text-muted">
+            <div class="row">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <img class="card-img-top img-fluid" src="">
+                        <div class="card-block">
+                            <h3 class="card-title">Test Card</h3>
+                            <p class="card-text">Boop</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div id="main" class="container">
+            {% block pre_content %}{% endblock %}
+                {% block flash_messages %}
+                    {%- with messages = get_flashed_messages(with_categories=true) -%}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                {% if category =='error' %}
+                                    {% set category='danger' %}
+                                {% endif %}
+                                <div class="alert alert-{{category}}">{{ message|safe}}</div>
+                            {% endfor %}
+                        {% endif %}
+                {%- endwith %}
+            {% endblock %}
+
+            {% block content %}{% endblock %}
+
+            {% block post_content %}{% endblock %}
+        </div>
+        <br/>
+        <div id="footer" class="clearfix with-margins">
+            <div class="float-left">{{ user_manager.app_name }} v1.0</div>
+        </div>
+
+
+
+
+
+
+        <!-- Things needed for bootstrap 4 -->
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        {% endblock %}
+    </body>
+</html>
